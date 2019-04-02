@@ -1,0 +1,14 @@
+<h1>Welcome to the Index Page!!!</h1>
+
+<% allBlogs.forEach(function(blog){ %>
+    <p>
+        <%= blog.title %>
+    </p>
+    <img src="<%= blog.image %>">
+    <p>
+        <%= blog.blogContent %>
+    </p>
+    <p>
+        <%= blog.created %>
+    </p>
+    <%});%>
