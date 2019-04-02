@@ -1,14 +1,15 @@
-<h1>Welcome to the Index Page!!!</h1>
+<% include partials/header %>
+    <% allBlogs.forEach(function(blog){ %>
+        <p>
+            <%= blog.title %>
+        </p>
+        <img src="<%= blog.image %>">
+        <p>
+            <%= blog.blogContent %>
+        </p>
+        <p>
+            <%= blog.created %>
+        </p>
+        <%});%>
 
-<% allBlogs.forEach(function(blog){ %>
-    <p>
-        <%= blog.title %>
-    </p>
-    <img src="<%= blog.image %>">
-    <p>
-        <%= blog.blogContent %>
-    </p>
-    <p>
-        <%= blog.created %>
-    </p>
-    <%});%>
+            <% include partials/footer %>

@@ -25,22 +25,9 @@ var blogSchema = new mongoose.Schema({
 
 var Blog = mongoose.model("Blog", blogSchema);
 
-/*
-Blog.create({
-    title: "testing",
-    image: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=60",
-    blogContent: "Hello this is a blog post"
 
-}, function(err, blog) {
-    if (err) {
-        console.log(err);
-    } else {
-        console.log(blog);
-    }
-})
-*/
-
-//---------------RESTFUL ROUTES---------------------
+//---------------R.F GET Request---------------------
+//homepage list all the posts
 app.get("/", function(req, res) {
     Blog.find({}, function(err, blogs) {
         if (err) {
@@ -51,7 +38,7 @@ app.get("/", function(req, res) {
     });
 
 });
-
+//home page list all the post
 app.get("/blogs", function(req, res) {
     Blog.find({}, function(err, blogs) {
         if (err) {
@@ -61,6 +48,64 @@ app.get("/blogs", function(req, res) {
         }
     });
 
+});
+// show a new  blog post form
+app.get("/blogs/new", function(req, res) {
+    res.render("new");
+});
+
+//shoow info about one specific blog post
+app.get("/blogs/:id", function(req, res) {
+    //get the id of the specific blog
+    var currBlogId = req.params.id;
+    Blog.findById(currBlogId, function(err, foundPost) {
+        if (err)
+            console.log(err);
+        else
+            res.render("show", { currentBlog: foundPost })
+    });
+})
+
+//show edit form for one campground
+app.get("/blogs/:id/edit", function(req, res) {
+
+});
+
+
+//------------------R. F Update Request--------------------
+
+//Update a particular post, then redirect to somewhere
+app.put("/blogs/:id", function(req, res) {
+
+});
+
+
+//-----------------R. F Delete Request--------------------
+
+//delete a particular post, then redirect somewhere
+app.delete("/blogs/:id", function(req, res) {
+
+});
+
+
+//------------------R.F POST Request------------------------
+
+//create a new campground, then redirect to home page
+app.post("/blogs", function(req, res) {
+    var newBlog = {
+        tile: req.bod.title,
+        image: req.body.image,
+        blogContent: req.body.blogContent,
+        created: req.body.created
+    }
+    Blog.create(newBlog, function(err, newlyCreated) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(newlyCreated);
+            res.redirect("/blog")
+        }
+    });
 });
 
 
