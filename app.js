@@ -1,8 +1,9 @@
 var express = require("express"),
     app = express(),
     port = 3000,
-    bodyParser = require("body-parser"),
-    mongoose = require("mongoose");
+    bodyParser = require("body-parser");
+var mongoose = require("mongoose");
+var methodOverride = require("method-override"); //HTTP put and delete verb
 
 
 mongoose.connect("mongodb://localhost:27017/blogApp", { useNewUrlParser: true });
@@ -12,6 +13,7 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(methodOverride("_method"));
 
 
 
@@ -62,30 +64,22 @@ app.get("/blogs/:id", function(req, res) {
         if (err)
             console.log(err);
         else
-            res.render("show", { currentBlog: foundPost })
+            res.render("show", { currentBlog: foundPost });
     });
-})
+});
 
 //show edit form for one campground
 app.get("/blogs/:id/edit", function(req, res) {
+    Blog.findById(req.params.id, function(err, foundPost) {
+        if (err) {
+            res.redirect("/blogs")
+        } else {
+            res.render("edit", { currentBlog: foundPost });
+        }
+    });
 
 });
 
-
-//------------------R. F Update Request--------------------
-
-//Update a particular post, then redirect to somewhere
-app.put("/blogs/:id", function(req, res) {
-
-});
-
-
-//-----------------R. F Delete Request--------------------
-
-//delete a particular post, then redirect somewhere
-app.delete("/blogs/:id", function(req, res) {
-
-});
 
 
 //------------------R.F POST Request------------------------
@@ -93,7 +87,7 @@ app.delete("/blogs/:id", function(req, res) {
 //create a new campground, then redirect to home page
 app.post("/blogs", function(req, res) {
     var newBlog = {
-        tile: req.bod.title,
+        title: req.body.title,
         image: req.body.image,
         blogContent: req.body.blogContent,
         created: req.body.created
@@ -103,7 +97,21 @@ app.post("/blogs", function(req, res) {
             console.log(err);
         } else {
             console.log(newlyCreated);
-            res.redirect("/blog")
+            res.redirect("/blogs");
+        }
+    });
+});
+
+//-----------Restfu PUT request-----------
+app.put("/blogs/:id", function(req, res) {
+    var currBlogId = req.params.id;
+
+    //takes 3 arguments: id, newData, callBack
+    Blog.findByIdAndUpdate(currBlogId, req.body.blog, function(err, postUpdated) {
+        if (err) {
+            res.redirect("/blogs");
+        } else {
+            res.redirect("/blogs" + currBlogId);
         }
     });
 });
@@ -111,8 +119,23 @@ app.post("/blogs", function(req, res) {
 
 
 
+//-----------------R. F Delete Request--------------------
+
+//delete a particular post, then redirect somewhere
+app.delete("/blogs/:id", function(req, res) {
+    var currBlogId = req.params.id;
+    Blog.findByIdAndRemove(currBlogId, function(err) {
+        if (err) {
+            res.send("failed to delete post");
+        } else {
+            res.redirect("/blogs");
+        }
+    });
+});
+
+
 
 //---------------LISTEN TO PORT 3000 FOR CONNECTION--
 app.listen(port, function() {
-    console.log("Blog App server has started");
+    console.log("Blog App server has start");
 });

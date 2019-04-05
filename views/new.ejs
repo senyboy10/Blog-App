@@ -1,6 +1,29 @@
 <% include partials/header %>
 
+    <div class="ui main text container segment">
+        <div class="ui huge header center aligned">Blog Post</div>
 
+        <!--form we need blog title, blog image, textContent and Submit button-->
+
+        <form class="ui form" method="POST" action="/blogs">
+            <div class="field">
+                <label>Blog Title</label>
+                <input type="text" name="title" placeholder="Blog Title">
+            </div>
+            <div class="field">
+                <label>Image</label>
+                <input type="text" name="image" placeholder="Image URL">
+            </div>
+            <div class="field">
+                <label>Blog Content</label>
+                <textarea name="blogContent" required></textarea>
+            </div>
+            <div class="formSubmitButton">
+                <button class="ui black button center aligned" type="submit">Submit</button>
+            </div>
+
+        </form>
+    </div>
 
 
 

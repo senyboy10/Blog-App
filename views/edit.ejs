@@ -1,0 +1,32 @@
+<% include partials/header %>
+
+    <div class="ui main text container segment">
+        <div class="ui huge header center aligned">Edit
+            <%= currentBlog.title %>
+
+        </div>
+
+        <!--form we need blog title, blog image, textContent and Submit button-->
+        <!--Html form don't accept PUT request, they only support get and post request-->
+        <form class="ui form" method="POST" action="/blogs/<%= currentBlog._id%>?_method=PUT">
+            <div class="field">
+                <label>Blog Title</label>
+                <input type="text" name="blog[title]" value="<%=currentBlog.title%>" placeholder="Blog Title">
+            </div>
+            <div class="field">
+                <label>Image</label>
+                <input type="text" name="blog[image]" placeholder="Image URL" value="<%=currentBlog.image%>">
+            </div>
+            <div class="field">
+                <label>Blog Content</label>
+                <textarea name="blog[blogContent]" required><%= currentBlog.blogContent%></textarea>
+            </div>
+            <div class="formSubmitButton ">
+                <button class="ui black button center aligned " type="submit ">Submit</button>
+            </div>
+
+        </form>
+    </div>
+
+
+    <% include partials/footer %>

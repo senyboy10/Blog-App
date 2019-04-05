@@ -5,11 +5,12 @@
         </p>
         <img src="<%= blog.image %>">
         <p>
-            <%= blog.blogContent %>
+            <%= blog.blogContent.substring(0,100)%>...
+                <a class="ui primary button" href="/blogs/<%=blog._id%>">Read More</a>
         </p>
         <p>
             <%= blog.created %>
         </p>
         <%});%>
 
-            <% include partials/footer %>
+            <% include partials/footer %>"
