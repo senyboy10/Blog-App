@@ -4,7 +4,7 @@
 ## This Blog Website is written using:
 1. Front End:
     * HTML, CSS, JavaScript
-    * Semantic UI (menu, forms)
+    * Semantic UI (menu (navbar), forms)
 2. Back End:
     * node Js
     * express, bodyParser, ejs, 

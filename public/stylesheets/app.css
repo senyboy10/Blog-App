@@ -13,3 +13,7 @@ i.icon {
 #delete {
     display: inline;
 }
+
+#editAndDeleteButtons {
+    text-align: center;
+}

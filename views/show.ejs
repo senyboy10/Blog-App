@@ -13,10 +13,10 @@
                 </div>
                 <div class="description">
                     <p>
-                        <%=currentBlog.blogContent%>
+                        <%-currentBlog.blogContent%>
                     </p>
                 </div>
-                <div class="ui center">
+                <div id="editAndDeleteButtons">
                     <hr>
                     <a class="ui primary button " href="/blogs/<%=currentBlog._id %>/edit">Edit Info</a>
                     <form id="delete" method="POST" action="/blogs/<%= currentBlog._id %>?_method=DELETE">
@@ -24,10 +24,6 @@
                     </form>
 
                 </div>
-
-
-
-
 
             </div>
         </div>

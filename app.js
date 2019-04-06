@@ -117,7 +117,7 @@ app.put("/blogs/:id", function(req, res) {
         if (err) {
             res.redirect("/blogs");
         } else {
-            res.redirect("/blogs" + currBlogId);
+            res.redirect("/blogs/" + currBlogId);
         }
     });
 });
