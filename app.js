@@ -1,5 +1,6 @@
 var express = require("express"),
     app = express(),
+    expressSanitizer = require("express-sanitizer"),
     port = 3000,
     bodyParser = require("body-parser");
 var mongoose = require("mongoose");
@@ -13,6 +14,9 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+//expressSanitizer needs to go after bodyParser
+//we are sanitizing the body content to remove all scrip tag
+app.use(expressSanitizer());
 app.use(methodOverride("_method"));
 
 
@@ -86,6 +90,8 @@ app.get("/blogs/:id/edit", function(req, res) {
 
 //create a new campground, then redirect to home page
 app.post("/blogs", function(req, res) {
+
+    req.body.blogContent = req.sanitize(req.body.blogContent);
     var newBlog = {
         title: req.body.title,
         image: req.body.image,
@@ -105,7 +111,7 @@ app.post("/blogs", function(req, res) {
 //-----------Restfu PUT request-----------
 app.put("/blogs/:id", function(req, res) {
     var currBlogId = req.params.id;
-
+    req.body.blog.blogContent = req.sanitize(req.body.blog.blogContent);
     //takes 3 arguments: id, newData, callBack
     Blog.findByIdAndUpdate(currBlogId, req.body.blog, function(err, postUpdated) {
         if (err) {
